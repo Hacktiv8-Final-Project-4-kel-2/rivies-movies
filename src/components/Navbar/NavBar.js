@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import NavTitle from "../NavTitle/NavTitle";
 import SearchBar from "../SearchBar/SearchBar";
 import UserNav from "../UserNav/UserNav";
 import styles from "./NavBar.module.css";
 function NavBar(props) {
   const [show, setShow] = useState(false);
+  const navigate = useNavigate()
   return (
     <nav
       className={`d-flex align-items-center justify-content-between container py-2 ${styles.nav}`}
@@ -43,7 +45,13 @@ function NavBar(props) {
           onChange={props.onChange}
           onSubmit={props.onSubmit}
         />
-        <UserNav username={props.username} />
+        {
+          localStorage.getItem('token')
+          ?
+          <UserNav username={props.username} onClick={()=>navigate('/login')}  />
+          :
+          <p onClick={()=>navigate('/login')}>Login</p>
+        }
       </div>
     </nav>
   );
